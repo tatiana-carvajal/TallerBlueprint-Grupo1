@@ -1,0 +1,22 @@
+models:
+  User:
+    name: string
+    email: string
+    password: string
+
+  Task:
+    name: string
+    description: string nullable
+    status: enum('pendiente', 'en progreso', 'completado')
+    due_date: datetime nullable
+    project_id: id foreign:Project.id onDelete:cascade onUpdate:cascade
+
+  Project:
+    title: string
+    description: string nullable
+    owner_id: id foreign:User.id onDelete:cascade onUpdate:cascade
+
+  Project_user:
+    project_id: id foreign:Project.id onDelete:cascade onUpdate:cascade
+    user_id: id foreign:User.id onDelete:cascade onUpdate:cascade
+    role: varchar(50)

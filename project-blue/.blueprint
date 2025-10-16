@@ -1,0 +1,18 @@
+created:
+    - database/factories/UserFactory.php
+    - database/factories/TaskFactory.php
+    - database/factories/ProjectFactory.php
+    - database/factories/ProjectUserFactory.php
+    - database/migrations/2025_10_16_153152_create_users_table.php
+    - database/migrations/2025_10_16_153153_create_tasks_table.php
+    - database/migrations/2025_10_16_153154_create_projects_table.php
+    - database/migrations/2025_10_16_153155_create_project_users_table.php
+    - app/Models/User.php
+    - app/Models/Task.php
+    - app/Models/Project.php
+    - app/Models/Project_user.php
+models:
+    User: { name: string, email: string, password: string }
+    Task: { name: string, description: 'string nullable', status: "enum('pendiente', 'en progreso', 'completado')", due_date: 'datetime nullable', project_id: 'id foreign:Project.id onDelete:cascade onUpdate:cascade' }
+    Project: { title: string, description: 'string nullable', owner_id: 'id foreign:User.id onDelete:cascade onUpdate:cascade' }
+    Project_user: { project_id: 'id foreign:Project.id onDelete:cascade onUpdate:cascade', user_id: 'id foreign:User.id onDelete:cascade onUpdate:cascade', role: varchar(50) }

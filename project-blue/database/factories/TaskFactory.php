@@ -4,16 +4,17 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\User;
+use App\Models\Project;
+use App\Models\Task;
 
-class UserFactory extends Factory
+class TaskFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = User::class;
+    protected $model = Task::class;
 
     /**
      * Define the model's default state.
@@ -22,8 +23,10 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'email' => fake()->safeEmail(),
-            'password' => fake()->password(),
+            'description' => fake()->text(),
+            'status' => fake()->word(),
+            'due_date' => fake()->dateTime(),
+            'project_id' => Project::factory(),
         ];
     }
 }

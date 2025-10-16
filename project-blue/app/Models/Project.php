@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class User extends Model
+class Project extends Model
 {
     use HasFactory;
 
@@ -15,18 +16,9 @@ class User extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
+        'title',
+        'description',
+        'owner_id',
     ];
 
     /**
@@ -38,6 +30,12 @@ class User extends Model
     {
         return [
             'id' => 'integer',
+            'owner_id' => 'integer',
         ];
+    }
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
