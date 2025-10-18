@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Project;
 use App\Models\Project_user;
+use App\Models\ProjectUser;
 use App\Models\User;
 
 class ProjectUserFactory extends Factory
@@ -25,7 +26,7 @@ class ProjectUserFactory extends Factory
         return [
             'project_id' => Project::factory(),
             'user_id' => User::factory(),
-            'role' => fake()->word(),
+            'role' => fake()->randomElement(["Líder","Miembro","Revisor"]),
         ];
     }
 }

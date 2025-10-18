@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 
-class User extends Model
+class User extends Authenticatable
 {
     use HasFactory;
 
@@ -18,6 +19,7 @@ class User extends Model
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -30,14 +32,24 @@ class User extends Model
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast to native types.
      *
-     * @return array<string, string>
+     * @var array<string,string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'id' => 'integer',
+    ];
+
+    /**
+     * Hash the password automatically when setting it.
+     */
+    public function setPasswordAttribute($value)
     {
-        return [
-            'id' => 'integer',
-        ];
+        if ($value === null) {
+            return;
+        }
+
+        // If the value is already hashed, don't re-hash it.
+        $this->attributes['password'] = Hash::needsRehash($value) ? Hash::make($value) : $value;
     }
 }

@@ -22,11 +22,12 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
+            'project_id' => Project::factory(),
+            
             'name' => fake()->name(),
             'description' => fake()->text(),
-            'status' => fake()->word(),
-            'due_date' => fake()->dateTime(),
-            'project_id' => Project::factory(),
+            'status' => fake()->randomElement(["completado","pendiente","cancelado"]),
+            'due_date' => fake()->date(),
         ];
     }
 }

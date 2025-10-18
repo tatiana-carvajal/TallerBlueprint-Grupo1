@@ -2,45 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $users = User::all();
 
-        return view('users.index', [
+        return view('user.index', [
             'users' => $users,
         ]);
-    }
-
-    public function create()
-    {
-        return view('user.create');
     }
 
     public function store(UserStoreRequest $request)
     {
         $user = User::create($request->validated());
-        session()->flash('success', 'Registro creado exitosamente.');
-        return redirect()->route('users.index');
-    }
 
-    public function edit(User $user)
-    {
-        return view('user.edit', [
-            'user' => $user,
-        ]);
+        session()->flash('success', 'Registro creado exitosamente');
+
+        return redirect()->route('users.index');
     }
 
     public function update(UserUpdateRequest $request, User $user)
     {
         $user->update($request->validated());
 
-        session()->flash('success', 'Registro actualizado exitosamente.');
+        session()->flash('success', 'Registro actualizado exitosamente');
 
         return redirect()->route('users.index');
     }
@@ -48,7 +40,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        session()->flash('success', 'Registro eliminado exitosamente.');
+
         return redirect()->route('users.index');
     }
 }

@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\TaskStoreRequest;
+use App\Http\Requests\TaskUpdateRequest;
+use App\Models\Project;
 use App\Models\Task;
-use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::all();
-
+        $tasks = Task::with('project')->get();
         return view('task.index', [
             'tasks' => $tasks,
         ]);
@@ -19,36 +19,36 @@ class TaskController extends Controller
 
     public function create()
     {
-        return view('task.create');
+        $projects = Project::all();   
+        return view('task.create', compact('projects'));
     }
 
     public function store(TaskStoreRequest $request)
     {
         $task = Task::create($request->validated());
-        session()->flash('success', 'Registro creado exitosamente.');
-        return redirect()->route('Tasks.index');
+        session()->flash('success', "Tarea creada exitosamente.");
+        return redirect()->route('tasks.index');
     }
 
     public function edit(Task $task)
     {
+        $projects = Project::all();
         return view('task.edit', [
             'task' => $task,
+            'projects' => $projects
         ]);
     }
 
     public function update(TaskUpdateRequest $request, Task $task)
     {
         $task->update($request->validated());
-
-        session()->flash('success', 'Registro actualizado exitosamente.');
-
+        session()->flash('success', 'Tarea actualizada correctamente.');
         return redirect()->route('tasks.index');
     }
 
     public function destroy(Task $task)
     {
         $task->delete();
-        session()->flash('success', 'Registro eliminado exitosamente.');
-        return redirect()->route('projects.index');
+        return redirect()->route('tasks.index')->with('success', 'Tarea eliminada correctamente.');
     }
 }

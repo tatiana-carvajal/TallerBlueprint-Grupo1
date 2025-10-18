@@ -16,11 +16,11 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
+        'project_id',
         'name',
         'description',
         'status',
         'due_date',
-        'project_id',
     ];
 
     /**
@@ -32,8 +32,8 @@ class Task extends Model
     {
         return [
             'id' => 'integer',
-            'due_date' => 'datetime',
             'project_id' => 'integer',
+            'due_date' => 'date',
         ];
     }
 
